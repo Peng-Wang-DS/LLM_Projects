@@ -1,23 +1,27 @@
 import streamlit as st
 from chatbot import get_response
-
+from langchain_test import get_qa_chain
 # Title with larger font size
 st.markdown("<h1 style='font-size: 40px;'>Chatbot Test - Peng 🌻</h1>", unsafe_allow_html=True)
 
 # Input field for the user to ask a question
-question = st.text_input("Question: ")
+question = st.text_input("Ask your question:")
 
 # Button to trigger the response
-btn = st.button("Get Response")
+btn = st.button("Search Online")
 
 # Response logic
 response = None
 
 # If the button is clicked or the question is entered
-if btn or question:
+if btn:
     if question:
-        # Get the response for the question entered
+        # Get the response for the question entered from Online resources
         response = get_response(question)
+else:
+    if question:
+        qa_function = get_qa_chain()
+        response = qa_function(question) 
 
 # Display the response if it's available
 if response:
@@ -32,5 +36,5 @@ if response:
         answer = response
 
     # Display the answer with a larger font size
-    st.markdown(f"<h2 style='font-size: 30px;'>Answer</h2>", unsafe_allow_html=True)  # Adjust answer header size here
+    st.markdown(f"<h2 style='font-size: 30px;'>Answer:</h2>", unsafe_allow_html=True)
     st.markdown(f"<p style='font-size: 24px;'>{answer}</p>", unsafe_allow_html=True)  # Adjust answer text size here
